@@ -659,7 +659,8 @@ const MarriageCertificateDapp = () => {
       });
 
       // Wait for transaction
-      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+      const _receipt = await publicClient.waitForTransactionReceipt({ hash });
+      
 
       alert(
         "Marriage Certificate NFT minted successfully! 💍\nTransaction: " + hash
