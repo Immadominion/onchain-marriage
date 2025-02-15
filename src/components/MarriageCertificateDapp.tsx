@@ -659,7 +659,8 @@ const MarriageCertificateDapp = () => {
       });
 
       // Wait for transaction
-      const _receipt = await publicClient.waitForTransactionReceipt({ hash });
+      // const _receipt = await publicClient.waitForTransactionReceipt({ hash });
+      await publicClient.waitForTransactionReceipt({ hash });
       
 
       alert(
