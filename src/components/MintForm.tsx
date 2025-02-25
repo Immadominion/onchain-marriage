@@ -9,10 +9,10 @@ import {
   decodeEventLog,
 } from "viem";
 import { baseSepolia } from "viem/chains";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import CONTRACT_ABI from "@/constants/contractAbi";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import CONTRACT_ABI from "../constants/contractAbi";
 import MintSuccessAlert from "./MintSuccessAlert"; // Import the MintSuccessAlert component
 
 const CONTRACT_ADDRESS = "0x68a9b61aad98960b6ec11ca433fb3e9ceb19cffe";

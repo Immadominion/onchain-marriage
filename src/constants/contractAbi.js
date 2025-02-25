@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const marriageCertificateABI = [
     {
         "inputs": [],
@@ -736,4 +734,4 @@ const marriageCertificateABI = [
         "type": "receive"
     }
 ];
-exports.default = marriageCertificateABI;
+export default marriageCertificateABI;

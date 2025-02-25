@@ -6,7 +6,7 @@ import { useWindowSize } from "@uidotdev/usehooks";
 import { X, ExternalLink } from "lucide-react";
 import { createPublicClient, http } from "viem";
 import { baseSepolia } from "viem/chains";
-import CONTRACT_ABI from "@/constants/contractAbi";
+import CONTRACT_ABI from "../constants/contractAbi";
 
 interface MintSuccessAlertProps {
   tokenId: number;

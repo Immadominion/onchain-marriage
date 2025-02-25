@@ -1,7 +1,7 @@
 "use client";
 
 import { Heart, Copy, Wallet, LogOut, Sun, Moon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../components/ui/button";
 import { useTheme } from "next-themes";
 import { useEffect, useRef, useState } from "react";
 

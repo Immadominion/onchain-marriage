@@ -3,8 +3,8 @@
 import { usePrivy } from "@privy-io/react-auth";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import Navbar from "@/components/Navbar";
-import MintForm from "@/components/MintForm";
+import Navbar from "../components/Navbar";
+import MintForm from "../components/MintForm";
 
 const MarriageCertificateDapp = () => {
   const { login, logout, user, authenticated } = usePrivy();

@@ -1,30 +1,25 @@
-"use strict";
 "use client";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const jsx_runtime_1 = require("react/jsx-runtime");
-const react_1 = require("react");
-const react_confetti_1 = __importDefault(require("react-confetti"));
-const usehooks_1 = require("@uidotdev/usehooks");
-const lucide_react_1 = require("lucide-react");
-const viem_1 = require("viem");
-const chains_1 = require("viem/chains");
-const contractAbi_1 = __importDefault(require("@/constants/contractAbi"));
+import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+import { useEffect, useState } from "react";
+import Confetti from "react-confetti";
+import { useWindowSize } from "@uidotdev/usehooks";
+import { X, ExternalLink } from "lucide-react";
+import { createPublicClient, http } from "viem";
+import { baseSepolia } from "viem/chains";
+import CONTRACT_ABI from "../constants/contractAbi";
 const CONTRACT_ADDRESS = "0x68a9b61aad98960b6ec11ca433fb3e9ceb19cffe";
 const MintSuccessAlert = ({ tokenId, partnerAddress, onClose, }) => {
-    const { width, height } = (0, usehooks_1.useWindowSize)();
-    const [showConfetti, setShowConfetti] = (0, react_1.useState)(true);
-    const [nftMetadata, setNftMetadata] = (0, react_1.useState)(null);
-    const [isLoading, setIsLoading] = (0, react_1.useState)(true);
-    const [error, setError] = (0, react_1.useState)(null);
-    const [linkCopied, setLinkCopied] = (0, react_1.useState)(false);
-    const publicClient = (0, viem_1.createPublicClient)({
-        chain: chains_1.baseSepolia,
-        transport: (0, viem_1.http)(),
+    const { width, height } = useWindowSize();
+    const [showConfetti, setShowConfetti] = useState(true);
+    const [nftMetadata, setNftMetadata] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [linkCopied, setLinkCopied] = useState(false);
+    const publicClient = createPublicClient({
+        chain: baseSepolia,
+        transport: http(),
     });
-    (0, react_1.useEffect)(() => {
+    useEffect(() => {
         const fetchMetadata = async () => {
             setIsLoading(true);
             setError(null);
@@ -33,7 +28,7 @@ const MintSuccessAlert = ({ tokenId, partnerAddress, onClose, }) => {
                 try {
                     const exists = await publicClient.readContract({
                         address: CONTRACT_ADDRESS,
-                        abi: contractAbi_1.default,
+                        abi: CONTRACT_ABI,
                         functionName: "_exists",
                         args: [BigInt(tokenId)],
                     });
@@ -48,7 +43,7 @@ const MintSuccessAlert = ({ tokenId, partnerAddress, onClose, }) => {
                 try {
                     const marriageDetails = (await publicClient.readContract({
                         address: CONTRACT_ADDRESS,
-                        abi: contractAbi_1.default,
+                        abi: CONTRACT_ABI,
                         functionName: "marriages",
                         args: [BigInt(tokenId)],
                     }));
@@ -97,7 +92,7 @@ const MintSuccessAlert = ({ tokenId, partnerAddress, onClose, }) => {
                 }
                 const metadataUri = await publicClient.readContract({
                     address: CONTRACT_ADDRESS,
-                    abi: contractAbi_1.default,
+                    abi: CONTRACT_ABI,
                     functionName: "tokenURI",
                     args: [BigInt(tokenId)],
                 });
@@ -133,7 +128,7 @@ const MintSuccessAlert = ({ tokenId, partnerAddress, onClose, }) => {
             fetchMetadata();
         }
     }, [tokenId]);
-    (0, react_1.useEffect)(() => {
+    useEffect(() => {
         const timer = setTimeout(() => {
             setShowConfetti(false);
         }, 5000);
@@ -150,14 +145,14 @@ const MintSuccessAlert = ({ tokenId, partnerAddress, onClose, }) => {
             alert("Failed to copy link. Please try again.");
         }
     };
-    return ((0, jsx_runtime_1.jsxs)("div", { className: "fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4", children: [showConfetti && (0, jsx_runtime_1.jsx)(react_confetti_1.default, { width: width || 0, height: height || 0 }), (0, jsx_runtime_1.jsxs)("div", { className: "relative bg-white/90 dark:bg-gray-900/90 rounded-2xl border border-gray-200 dark:border-gray-700 p-8 max-w-md w-full shadow-lg", children: [(0, jsx_runtime_1.jsx)("button", { onClick: onClose, className: "absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors", children: (0, jsx_runtime_1.jsx)(lucide_react_1.X, { size: 20, className: "text-gray-600 dark:text-gray-400" }) }), (0, jsx_runtime_1.jsxs)("div", { className: "text-center space-y-6", children: [(0, jsx_runtime_1.jsx)("h2", { className: "text-2xl font-bold text-gray-800 dark:text-white", children: "\uD83C\uDF89 Mint Successful!" }), isLoading ? ((0, jsx_runtime_1.jsxs)("div", { className: "py-8 text-center", children: [(0, jsx_runtime_1.jsx)("div", { className: "mx-auto w-12 h-12 border-4 border-gray-200 border-t-rose-500 rounded-full animate-spin" }), (0, jsx_runtime_1.jsx)("p", { className: "mt-4 text-gray-600 dark:text-gray-300", children: "Loading NFT details..." })] })) : error ? ((0, jsx_runtime_1.jsxs)("div", { className: "py-6 text-center", children: [(0, jsx_runtime_1.jsx)("p", { className: "text-red-500 dark:text-red-400", children: error }), (0, jsx_runtime_1.jsx)("button", { onClick: () => {
+    return (_jsxs("div", { className: "fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4", children: [showConfetti && _jsx(Confetti, { width: width || 0, height: height || 0 }), _jsxs("div", { className: "relative bg-white/90 dark:bg-gray-900/90 rounded-2xl border border-gray-200 dark:border-gray-700 p-8 max-w-md w-full shadow-lg", children: [_jsx("button", { onClick: onClose, className: "absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors", children: _jsx(X, { size: 20, className: "text-gray-600 dark:text-gray-400" }) }), _jsxs("div", { className: "text-center space-y-6", children: [_jsx("h2", { className: "text-2xl font-bold text-gray-800 dark:text-white", children: "\uD83C\uDF89 Mint Successful!" }), isLoading ? (_jsxs("div", { className: "py-8 text-center", children: [_jsx("div", { className: "mx-auto w-12 h-12 border-4 border-gray-200 border-t-rose-500 rounded-full animate-spin" }), _jsx("p", { className: "mt-4 text-gray-600 dark:text-gray-300", children: "Loading NFT details..." })] })) : error ? (_jsxs("div", { className: "py-6 text-center", children: [_jsx("p", { className: "text-red-500 dark:text-red-400", children: error }), _jsx("button", { onClick: () => {
                                             setIsLoading(true);
                                             // Retry fetching after a short delay
                                             setTimeout(async () => {
                                                 try {
                                                     const metadataUri = await publicClient.readContract({
                                                         address: CONTRACT_ADDRESS,
-                                                        abi: contractAbi_1.default,
+                                                        abi: CONTRACT_ABI,
                                                         functionName: "tokenURI",
                                                         args: [BigInt(tokenId)],
                                                     });
@@ -186,8 +181,8 @@ const MintSuccessAlert = ({ tokenId, partnerAddress, onClose, }) => {
                                                     setIsLoading(false);
                                                 }
                                             }, 3000);
-                                        }, className: "mt-4 px-4 py-2 bg-rose-500 text-white rounded-lg hover:bg-rose-600", children: "Try Again" })] })) : ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsxs)("div", { className: "space-y-4", children: [(0, jsx_runtime_1.jsx)("p", { className: "text-gray-600 dark:text-gray-300", children: "Your Marriage Certificate NFT has been minted." }), nftMetadata?.image && ((0, jsx_runtime_1.jsx)("div", { className: "bg-gray-100 dark:bg-gray-800 p-4 rounded-lg", children: (0, jsx_runtime_1.jsx)("img", { src: nftMetadata.image, alt: "NFT Preview", className: "w-full h-48 object-cover rounded-lg" }) })), (0, jsx_runtime_1.jsxs)("div", { className: "bg-gray-100 dark:bg-gray-800 p-4 rounded-lg text-left", children: [(0, jsx_runtime_1.jsx)("h3", { className: "font-semibold text-lg mb-2 text-center", children: nftMetadata?.name || `Marriage Certificate #${tokenId}` }), (0, jsx_runtime_1.jsx)("p", { className: "text-sm text-gray-600 dark:text-gray-400 mb-3", children: nftMetadata?.description ||
-                                                            "This NFT certifies your marriage on the blockchain." }), (0, jsx_runtime_1.jsxs)("div", { className: "space-y-2", children: [(0, jsx_runtime_1.jsxs)("div", { className: "flex justify-between text-sm", children: [(0, jsx_runtime_1.jsx)("span", { className: "font-medium", children: "Token ID:" }), (0, jsx_runtime_1.jsx)("span", { children: tokenId })] }), (0, jsx_runtime_1.jsxs)("div", { className: "flex justify-between text-sm", children: [(0, jsx_runtime_1.jsx)("span", { className: "font-medium", children: "Partner Address:" }), (0, jsx_runtime_1.jsx)("span", { className: "truncate max-w-[180px]", children: partnerAddress })] }), nftMetadata?.attributes &&
-                                                                nftMetadata.attributes.length > 0 && ((0, jsx_runtime_1.jsx)("div", { className: "mt-3 pt-3 border-t border-gray-200 dark:border-gray-700", children: nftMetadata.attributes.map((attr, idx) => ((0, jsx_runtime_1.jsxs)("div", { className: "flex justify-between text-sm my-1", children: [(0, jsx_runtime_1.jsxs)("span", { className: "font-medium", children: [attr.trait_type, ":"] }), (0, jsx_runtime_1.jsx)("span", { className: "truncate max-w-[180px]", children: attr.value })] }, idx))) }))] })] })] }), (0, jsx_runtime_1.jsxs)("div", { className: "space-y-3", children: [(0, jsx_runtime_1.jsx)("button", { onClick: handleCopyLink, className: "w-full bg-gradient-to-r from-rose-500 to-purple-500 text-white font-medium py-3 rounded-full hover:opacity-90 transition-opacity flex items-center justify-center gap-2", children: linkCopied ? "Copied!" : "Copy Partner Minting Link" }), (0, jsx_runtime_1.jsxs)("a", { href: `https://sepolia.basescan.org/token/${CONTRACT_ADDRESS}?a=${tokenId}`, target: "_blank", rel: "noopener noreferrer", className: "w-full bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-medium py-3 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors flex items-center justify-center gap-2", children: [(0, jsx_runtime_1.jsx)(lucide_react_1.ExternalLink, { size: 16 }), "View on BaseScan"] })] })] }))] })] })] }));
+                                        }, className: "mt-4 px-4 py-2 bg-rose-500 text-white rounded-lg hover:bg-rose-600", children: "Try Again" })] })) : (_jsxs(_Fragment, { children: [_jsxs("div", { className: "space-y-4", children: [_jsx("p", { className: "text-gray-600 dark:text-gray-300", children: "Your Marriage Certificate NFT has been minted." }), nftMetadata?.image && (_jsx("div", { className: "bg-gray-100 dark:bg-gray-800 p-4 rounded-lg", children: _jsx("img", { src: nftMetadata.image, alt: "NFT Preview", className: "w-full h-48 object-cover rounded-lg" }) })), _jsxs("div", { className: "bg-gray-100 dark:bg-gray-800 p-4 rounded-lg text-left", children: [_jsx("h3", { className: "font-semibold text-lg mb-2 text-center", children: nftMetadata?.name || `Marriage Certificate #${tokenId}` }), _jsx("p", { className: "text-sm text-gray-600 dark:text-gray-400 mb-3", children: nftMetadata?.description ||
+                                                            "This NFT certifies your marriage on the blockchain." }), _jsxs("div", { className: "space-y-2", children: [_jsxs("div", { className: "flex justify-between text-sm", children: [_jsx("span", { className: "font-medium", children: "Token ID:" }), _jsx("span", { children: tokenId })] }), _jsxs("div", { className: "flex justify-between text-sm", children: [_jsx("span", { className: "font-medium", children: "Partner Address:" }), _jsx("span", { className: "truncate max-w-[180px]", children: partnerAddress })] }), nftMetadata?.attributes &&
+                                                                nftMetadata.attributes.length > 0 && (_jsx("div", { className: "mt-3 pt-3 border-t border-gray-200 dark:border-gray-700", children: nftMetadata.attributes.map((attr, idx) => (_jsxs("div", { className: "flex justify-between text-sm my-1", children: [_jsxs("span", { className: "font-medium", children: [attr.trait_type, ":"] }), _jsx("span", { className: "truncate max-w-[180px]", children: attr.value })] }, idx))) }))] })] })] }), _jsxs("div", { className: "space-y-3", children: [_jsx("button", { onClick: handleCopyLink, className: "w-full bg-gradient-to-r from-rose-500 to-purple-500 text-white font-medium py-3 rounded-full hover:opacity-90 transition-opacity flex items-center justify-center gap-2", children: linkCopied ? "Copied!" : "Copy Partner Minting Link" }), _jsxs("a", { href: `https://sepolia.basescan.org/token/${CONTRACT_ADDRESS}?a=${tokenId}`, target: "_blank", rel: "noopener noreferrer", className: "w-full bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-medium py-3 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors flex items-center justify-center gap-2", children: [_jsx(ExternalLink, { size: 16 }), "View on BaseScan"] })] })] }))] })] })] }));
 };
-exports.default = MintSuccessAlert;
+export default MintSuccessAlert;
