@@ -3,7 +3,7 @@ import { base } from "viem/chains";
 import MarriageCertificateDapp from "./components/MarriageCertificateDapp";
 import { ThemeProvider } from "next-themes";
 
-const appId = import.meta.env.VITE_PRIVY_APP_ID || "";
+const appId = process.env.VITE_PRIVY_APP_ID || "";
 
 function App() {
   return (
