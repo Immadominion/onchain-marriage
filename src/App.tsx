@@ -1,11 +1,14 @@
 import { PrivyProvider } from "@privy-io/react-auth";
 import { base } from "viem/chains";
 import MarriageCertificateDapp from "./components/MarriageCertificateDapp";
+import { ThemeProvider } from "next-themes";
+
+const appId = import.meta.env.VITE_PRIVY_APP_ID || "";
 
 function App() {
   return (
     <PrivyProvider
-      appId={import.meta.env.VITE_PRIVY_APP_ID!}
+      appId={appId}
       config={{
         loginMethods: ["wallet"],
         defaultChain: base,
@@ -15,7 +18,9 @@ function App() {
         },
       }}
     >
-      <MarriageCertificateDapp />
+      <ThemeProvider attribute="class">
+        <MarriageCertificateDapp />
+      </ThemeProvider>
     </PrivyProvider>
   );
 }
