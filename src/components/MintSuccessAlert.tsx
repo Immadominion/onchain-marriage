@@ -11,6 +11,8 @@ import CONTRACT_ABI from "../constants/contractAbi";
 interface MintSuccessAlertProps {
   tokenId: number;
   partnerAddress: string;
+  certificateImageUrl: string | null;
+  shareUrl: string | null;
   onClose: () => void;
 }
 
@@ -26,6 +28,8 @@ const CONTRACT_ADDRESS = "0x68a9b61aad98960b6ec11ca433fb3e9ceb19cffe";
 const MintSuccessAlert = ({
   tokenId,
   partnerAddress,
+  certificateImageUrl,
+  shareUrl,
   onClose,
 }: MintSuccessAlertProps) => {
   const { width, height } = useWindowSize();
@@ -171,9 +175,16 @@ const MintSuccessAlert = ({
 
   const handleCopyLink = async () => {
     try {
-      await navigator.clipboard.writeText(
-        `<span class="math-inline">\{window\.location\.origin\}/mint\-partner?tokenId\=</span>{tokenId}`
-      );
+      // Always use the shareUrl from props if available
+      if (shareUrl) {
+        await navigator.clipboard.writeText(shareUrl);
+      } else {
+        // This is a fallback, but should not normally be reached if shareUrl is properly passed
+        console.warn("No shareUrl provided, using fallback URL");
+        await navigator.clipboard.writeText(
+          `${window.location.origin}/mint-partner?tokenId=${tokenId}`
+        );
+      }
       setLinkCopied(true);
       setTimeout(() => setLinkCopied(false), 2000);
     } catch (err) {
@@ -264,13 +275,13 @@ const MintSuccessAlert = ({
                   Your Marriage Certificate NFT has been minted.
                 </p>
 
-                {/* NFT Preview */}
-                {nftMetadata?.image && (
+                {/* Certificate Image - Use the prop passed from the parent */}
+                {certificateImageUrl && (
                   <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
                     <img
-                      src={nftMetadata.image}
-                      alt="NFT Preview"
-                      className="w-full h-48 object-cover rounded-lg"
+                      src={certificateImageUrl}
+                      alt="Marriage Certificate"
+                      className="w-full h-auto object-cover rounded-lg"
                     />
                   </div>
                 )}
